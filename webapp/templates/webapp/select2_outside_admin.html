@@ -1,0 +1,29 @@
+{#% extends 'base.html' %#}
+{# Don't forget that one ! #}
+{% load static %}
+<script src="{% static 'assets/css/select2.css' %}"></script>
+
+{% block content %}
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" />
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+ <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/select2.js' %}"></script>
+    <script src="{% static 'assets/js/search.js' %}"></script>
+
+
+ <script src="{% static 'sep/jquery-1.7.2.js' %}"></script>
+ <script src="{% static 'sep/autocomplete.init.js' %}"></script>
+  <script src="{% static 'sep/forward.js' %}"></script>
+
+{{ form.media }}
+ 
+{% endblock %}

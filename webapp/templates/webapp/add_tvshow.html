@@ -1,0 +1,260 @@
+ 
+ {% extends "webapp/base.html" %}
+
+
+ {% block content %}
+
+
+ {% load static %}
+    
+
+
+
+  
+
+
+
+  
+
+    
+ 
+    
+      <!--#INCLUDE VIRTUAL="TopNavInclude.asp" -->
+
+         
+        <div class="col-md-9 col-md-offset-0" > 
+            
+          <div class="panel panel-default panel-fade">
+          
+            <div class="panel-heading">
+             
+              <span class="panel-title">
+              
+                <div class="pull-left" >
+                
+                <ul class="nav nav-tabs">
+
+<li><a href="#resumo" data-toggle="tab" ><i class="glyphicon glyphicon-expand"></i> {{data.tvs_name|truncatechars:15}} </a></li>
+
+
+
+
+
+
+
+{% for s in data_seasons %}
+{% if s == 1 %}                
+ <li class="active"><a href="#tab{{s}}" data-toggle="tab" ><i class="glyphicon glyphicon-play"></i> Temporada {{s}}</a></li>
+ {% else %}                   
+  <li><a href="#tab{{s}}" data-toggle="tab" ><i class="glyphicon glyphicon-play"></i> Temporada {{s}}</a></li>
+{% endif %} 
+{% endfor %} 
+                </ul>
+                  
+                </div>
+                
+                <div class="btn-group pull-right" >
+                  <div class="btn-group">
+                    <a href="#" class="btn  dropdown-toggle" data-toggle="dropdown">
+                      <span class="glyphicon glyphicon-cog" onClick="do_this()"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      
+                      <li><input type="button" class="btn btn-link" id="toggle" value="Selecionar todos"  /><br/></li>
+                      <li class="divider"></li>
+                      <li><a href="#">Another Action</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+              </span>
+              
+            </div>
+
+            <div class="panel-body">
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
+              <div class="tab-content">
+              
+{% for s in data_seasons %}
+  {% for ep in data_ep %} 
+                  
+           
+  {% if forloop.first %}            
+                                   {% if s == 1 %} 
+                                 <div class="tab-pane fade in active" id="tab{{s}}"> 
+                                   {% else %}
+                                   <div class="tab-pane fade" id="tab{{s}}"> 
+                                    {% endif %}
+
+
+                  <h4><font color="black">Episodios</font></h4>
+                 <FORM ACTION="" METHOD="post">
+                  <INPUT TYPE="hidden" NAME="FormName" VALUE="PrintLetters">
+                  <TABLE class="table table-striped">
+                  <THEAD>
+                     <TR><TH>Assistido?</TH>
+                     <TH style="text-align:left">Numero</TH>
+                     <TH style="text-align:left">Nome do Episodio</TH>
+                     <TH style="text-align:left">Duracao</TH>
+                     <TH>Data / Horario</TH><TH>Sumario</TH>
+                     </TR>
+                  </THEAD>
+                  <TBODY>
+
+
+{% endif %}
+{% if ep.tve_ep_number == 1 %}    
+
+<div class="tab-pane fade" id="tab{{s}}"> 
+
+  {% endif %}            
+ {% if s == ep.tve_season %}
+                    <TR><TD><center><INPUT TYPE="checkbox" NAME="EventCode" VALUE={{ep.tve_name}}></center></TD>
+                    <TD>{{ep.tve_ep_number}}</TD>
+                    <TD>{{ep.tve_name|truncatechars:35}}</TD>
+                    <TD>{{ep.tve_runtime|floatformat:"0" }} min</TD>
+                    <TD>{{ep.tve_airdate}} / {{ep.tve_airtime}} </TD>
+                    <TD>{{ep.tve_summary|truncatechars:35|safe}}</TD></TR>
+
+
+ 
+ {% endif %}   
+            
+{% endfor %}
+</TBODY>
+                  </TABLE>
+                  </INPUT>
+                  </FORM>
+</div>
+   {% endfor %}
+
+    
+
+
+
+
+                                 <div class="tab-pane fade" id="resumo">
+                  
+                 <FORM ACTION="" METHOD="post">
+                  <INPUT TYPE="hidden" NAME="FormName" VALUE="PrintLetters">
+                  <TABLE class="table table-striped">
+                  <THEAD>
+                    <TR><TH>{{data.tvs_name}}</TH><TH style="text-align:left"></TH><TH style="text-align:left"></TH><TH></TH><TH></TH></TR>
+                  </THEAD>
+                  <TBODY>
+                    <TR><TD>
+                      
+                       
+                      {{data.tvs_summary|safe}}
+
+                    </TD><TD>
+
+                    <TD><img src="{{data.tvs_img_m_url}}"></TD>
+                  </TBODY>
+                  </TABLE>
+                 
+                
+                </FORM>
+                </div>
+
+
+
+</font>
+                 
+              
+                </div>
+                
+
+              </div>
+              
+            </div>
+
+          </div>
+            
+        </div>
+            
+      
+
+      
+      <footer>
+     
+        <!--#INCLUDE VIRTUAL="FooterInclude.asp"--> 
+        
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="http://cdn.jsdelivr.net/jquery.easytabs/3.2.0/jquery.easytabs.min.js" type="text/javascript"></script>
+        
+ 
+        
+      </footer>
+       <script>
+ 
+$('a.btn.btn-default').hover(function(e) {
+$('a.btn.dropdown-toggle').trigger(e.type);
+})
+        </script>
+        
+        <script type="text/javascript">
+        $(".display-fade").delay(25).animate({"opacity": "1"}, 800);
+        $(".table-fade").delay(25).animate({"opacity": "1"}, 800);
+        </script>
+        
+        <script type="text/javascript">
+        var def="black";
+        function showNotification(color)
+        {
+          $( "#notification" ).removeClass(def);
+          $( "#notification" ).addClass(color);
+          def=color;
+          $( "#notification" ).fadeIn( "slow" );
+          //alert('hi');
+          $(".win8-notif-button").click(function()
+          {
+          //alert('hi');
+          $(".notification").fadeOut("slow");
+          });
+        
+        }
+        </script>
+
+        <script type="text/javascript">
+
+    function do_this(){
+
+        var checkboxes = document.getElementsByName('EventCode');
+        var button = document.getElementById('toggle');
+
+        if(button.value == 'Selecionar todos'){
+            for (var i in checkboxes){
+                checkboxes[i].checked = 'FALSE';
+            }
+            button.value = 'Desfazer'
+        }else{
+            for (var i in checkboxes){
+                checkboxes[i].checked = '';
+            }
+            button.value = 'select';
+        }
+    }
+</script>
+  {% endblock %}
